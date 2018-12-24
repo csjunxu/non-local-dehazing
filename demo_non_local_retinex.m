@@ -15,11 +15,11 @@
 
 % Choose image to use, four example image are supplied with the code in the
 % sub-folder "images":
-image_name = 'nighttime'; % 'train'; % 'cityscape'; % 'forest'; % 
+image_name = 'woman'; % 'train'; % 'cityscape'; % 'forest'; % 
 img_l = imread(['images/',image_name,'.bmp']);
-img_hazy = 255 - img_l;
+img_hazy = max(img_l(:)) - img_l;
 % Set the gamma. 
-gamma = 1;
+gamma = 1.5;
 
 % Estimate air-light using our method described in:
 % Air-light Estimation using Haze-Lines. Berman, D. and Treibitz, T. and 
@@ -29,7 +29,7 @@ A = reshape(estimate_airlight(im2double(img_hazy).^(gamma)),1,1,3);
 % Dehaze the image	
 [img_dehazed, trans_refined] = non_local_dehazing(img_hazy, A, gamma );
 
-img_h = 255 - img_dehazed;
+img_h = max(img_l(:)) - img_dehazed;
 % Display results
 figure('Position',[50,50, size(img_h,2)*3 , size(img_h,1)]);
 subplot(1,3,1); imshow(img_l);    title('Hazy input')
