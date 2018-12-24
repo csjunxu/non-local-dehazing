@@ -15,16 +15,11 @@
 
 % Choose image to use, four example image are supplied with the code in the
 % sub-folder "images":
-image_name = 'cityscape'; % 'train'; % 'cityscape'; % 'forest'; % 
-img_hazy = imread(['images/',image_name,'_input.png']);
-
-% Load the gamma from the param file. 
-% These values were given by Ra'anan Fattal, along with each image:
-% http://www.cs.huji.ac.il/~raananf/projects/dehaze_cl/results/
-fid = fopen(['images/',image_name,'_params.txt'],'r');
-[C] = textscan(fid,'%s %f');
-fclose(fid);
-gamma = C{2}(1);
+image_name = 'nighttime'; % 'train'; % 'cityscape'; % 'forest'; % 
+img_l = imread(['images/',image_name,'.bmp']);
+img_hazy = 255 - img_l;
+% Set the gamma. 
+gamma = 1;
 
 % Estimate air-light using our method described in:
 % Air-light Estimation using Haze-Lines. Berman, D. and Treibitz, T. and 
@@ -34,8 +29,9 @@ A = reshape(estimate_airlight(im2double(img_hazy).^(gamma)),1,1,3);
 % Dehaze the image	
 [img_dehazed, trans_refined] = non_local_dehazing(img_hazy, A, gamma );
 
+img_h = 255 - img_dehazed;
 % Display results
-figure('Position',[50,50, size(img_hazy,2)*3 , size(img_hazy,1)]);
-subplot(1,3,1); imshow(img_hazy);    title('Hazy input')
-subplot(1,3,2); imshow(img_dehazed); title('De-hazed output')
+figure('Position',[50,50, size(img_h,2)*3 , size(img_h,1)]);
+subplot(1,3,1); imshow(img_l);    title('Hazy input')
+subplot(1,3,2); imshow(img_h); title('De-hazed output')
 subplot(1,3,3); imshow(trans_refined); colormap('jet'); title('Transmission')
