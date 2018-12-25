@@ -15,7 +15,7 @@
 
 % Choose image to use, four example image are supplied with the code in the
 % sub-folder "images":
-image_name = 'woman'; % 'train'; % 'cityscape'; % 'forest'; % 
+image_name = 'campus'; % 'train'; % 'cityscape'; % 'forest'; % 
 img_l = imread(['images/',image_name,'.bmp']);
 img_hazy = max(img_l(:)) - img_l;
 % Set the gamma. 
