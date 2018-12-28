@@ -15,12 +15,13 @@
 
 % Choose image to use, four example image are supplied with the code in the
 % sub-folder "images":
-image_name = 'cityscape'; % 'train'; % 'cityscape'; % 'forest'; % 
-img_hazy = imread(['images/',image_name,'_input.png']);
+image_name = 'woman'; % 'train'; % 'cityscape'; % 'forest'; % 
+img_hazy = imread(['images/',image_name,'.bmp']);
 
 % Load the gamma from the param file. 
 % These values were given by Ra'anan Fattal, along with each image:
 % http://www.cs.huji.ac.il/~raananf/projects/dehaze_cl/results/
+image_name ='cityscape';
 fid = fopen(['images/',image_name,'_params.txt'],'r');
 [C] = textscan(fid,'%s %f');
 fclose(fid);

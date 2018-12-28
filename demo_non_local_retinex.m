@@ -17,19 +17,19 @@
 % sub-folder "images":
 image_name = 'campus'; % 'train'; % 'cityscape'; % 'forest'; % 
 img_l = imread(['images/',image_name,'.bmp']);
-img_hazy = max(img_l(:)) - img_l;
 % Set the gamma. 
 gamma = 1.5;
-
+img_hazy = 255 - img_l;
 % Estimate air-light using our method described in:
 % Air-light Estimation using Haze-Lines. Berman, D. and Treibitz, T. and 
 % Avidan S., ICCP 2017
-A = reshape(estimate_airlight(im2double(img_hazy).^(gamma)),1,1,3);
-
+% A = reshape(estimate_airlight(im2double(img_hazy).^(gamma)),1,1,3);
+A = zeros(1,1,3);
+A(1,1,:)=[1,1,1];
 % Dehaze the image	
 [img_dehazed, trans_refined] = non_local_dehazing(img_hazy, A, gamma );
 
-img_h = max(img_l(:)) - img_dehazed;
+img_h = 255 - img_dehazed;
 % Display results
 figure('Position',[50,50, size(img_h,2)*3 , size(img_h,1)]);
 subplot(1,3,1); imshow(img_l);    title('Hazy input')
